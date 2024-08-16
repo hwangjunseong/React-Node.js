@@ -1,2 +1,2 @@
 sync change = push github
-test3.txt 
+test3.txt login change
