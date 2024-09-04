@@ -1,0 +1,14 @@
+req.parmas => typeof 출력결과 string으로 나옴
+req.query  => typeof 출력결과 object로 나옴
+객체의 destruct 과정은 객체 내에서 key는 특정 값을 가지고 있는 유일한
+식별자이기에 이름을 정확히 맞춰줘야하고, 배열은 인덱스 값을 기준으로
+값을 추출하기에 이름을 맞춰주지 않고 순서만 맞춰주면 됨
+4가지 네이밍 케이스, 4가지의 js 함수 종류가 있다.
+map 자료구조는 key:value로 표현할 수 있는 구조이고 value로 객체도 저장 가능하다
+express-generator로 app의 기본 구조와 설정을 자동으로 생성 가능하다
+미들웨어들은 등록된 순서대로 처리되며 next 호출을 통해 다음 미들웨어로 넘어간다.
+api 설계시 개발자는 url과 method를 만든다.
+이때 개별 데이터 조회하는 과정에서는 id를 url에 params로 줘도 되지만
+새로운 유저를 등록하는 과정인 post에서는 url에 params로 사용자 정보를 같이 주면 안된다.
+req.body에 넣어서 보내줘야 한다.
+POSTMAN을 통해 설계한 URL과 METHOD가 잘 동작하는지 확인 가능하다.
