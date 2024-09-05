@@ -4,6 +4,9 @@ const port = 1235;
 //json이라는 미들웨어 모듈을 사용하면 req로 날아오는 걸 json으로 받음
 app.use(express.json());
 app.get("/", (req, res) => {
+  console.log(req.query);
+  //object
+  console.log(typeof req.query);
   res.send("Hello World!");
 });
 

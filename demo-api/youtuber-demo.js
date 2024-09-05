@@ -39,6 +39,19 @@ app.post("/youtuber", (req, res) => {
 app.get("/youtubers", (req, res) => {
   //map이 key:value =>json과 비슷
   //db가 이미 json과 비슷
+  //forEach문 : index 값 없이 사용, 배열
+  let youtubers = {};
+  db.forEach(function (value, key) {
+    console.log(key, value);
+    youtubers[key] = value;
+  });
+  console.log(youtubers);
+  res.json(youtubers);
+  //   db.forEach(function (youtuber) {
+  //     console.log(youtuber);
+
+  //   });
+
   //   Map(3) {
   //     1 => { channelTitle: '15ya', subScriber: '593만명', videoNum: '993개' },
   //     2 => { channelTitle: '침착맨', subScriber: '227만명', videoNum: '6.6천개' },
@@ -49,9 +62,64 @@ app.get("/youtubers", (req, res) => {
   //     '2': { channelTitle: '침착맨', subScriber: '227만명', videoNum: '6.6천개' },
   //     '3': { channelTitle: '큰돌의던전', subScriber: '2.06만명', videoNum: '219개' }
   //   }
-  const obj = Object.fromEntries(db);
-  console.log(obj);
-  res.send(obj);
+  //   const obj = Object.fromEntries(db);
+  //   console.log(obj);
+  //   res.send(obj);
+});
+app.delete("/youtubers/:id", (req, res) => {
+  let { id } = req.params;
+  id = parseInt(id);
+  const youtuber = db.get(id);
+  //db에 해당 id를 가진 유저가 있는지 확인
+  if (db.get(id) == undefined) {
+    console.log("존재하지 않는 id");
+    res.json({
+      message: `${id} id를 가진 user 정보가 존재하지 않습니다`,
+    });
+  } else {
+    db.delete(id);
+    res.json({ message: `${youtuber.channelTitle}님 정보가 삭제되었습니다` });
+  }
+});
+app.delete("/youtubers", (req, res) => {
+  var msg = "";
+  //db.clear할게 있는지 확인 => db의 값이 1개이상이면 전체 삭제
+  //   db. 눌렀을 때
+  //   정육면체 => 함수,메서드
+  //   직육면체 =>변수,field, js에서는 프로퍼티라고 부름
+  if (db.size >= 1) {
+    db.clear();
+    msg = "전체 유튜버가 삭제되었습니다";
+    // res.json({ message: "전체 유튜버가 삭제되었습니다" });
+  } else {
+    msg = "삭제할 유튜버가 없습니다";
+    // res.json({ message: "삭제할 유튜버가 없습니다" });
+  }
+  res.json({ message: msg });
+
+  //   db.map(function (value, key) {
+  //     db.delete(key);
+  //   });
+});
+app.put("/youtubers/:id", (req, res) => {
+  let id = req.params.id;
+  let channelTitle = req.body.channelTitle;
+  id = parseInt(id);
+  let youtuber = db.get(id);
+  if (youtuber != undefined) {
+    //이전 유튜버 정보
+    let prevChannelTitle = youtuber.channelTitle;
+    youtuber.channelTitle = channelTitle;
+    console.log(db);
+    db.set(id, youtuber);
+    console.log(db);
+
+    res.json({
+      message: `${prevChannelTitle}님 , 채널명이 ${youtuber.channelTitle}로 변경되었습니다`,
+    });
+  } else {
+    res.json({ message: `해당 ${id}을 가진 유저가 없습니다` });
+  }
 });
 //데이터 setting
 let youtuber1 = {
