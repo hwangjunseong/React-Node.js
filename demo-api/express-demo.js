@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
+const dotenv = require("dotenv");
+dotenv.config();
 //서버 setting => 순서 상관없음
-app.listen(8484);
+app.listen(process.env.PORT);
 app.get("/", function (req, res) {
   res.send("Hello World");
 });

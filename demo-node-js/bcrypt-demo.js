@@ -1,8 +1,11 @@
 const bcrypt = require("bcryptjs");
 
 const password = "1111";
+const start = Date.now();
 const bar = async () => {
   const hashedPassword = await bcrypt.hash(password, 12);
+  console.log("1: ", Date.now() - start);
+
   console.log(hashedPassword);
 };
 bar();
